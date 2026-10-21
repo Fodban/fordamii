@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Adedoyin 🩶 | From Femi</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        grey: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#030712',
+                        },
+                        silver: {
+                            light: '#f1f5f9',
+                            DEFAULT: '#cbd5e1',
+                            glow: '#e2e8f0',
+                        },
+                        accent: {
+                            rose: '#f43f5e',
+                            glow: 'rgba(244, 63, 94, 0.25)',
+                            silverGlow: 'rgba(203, 213, 225, 0.2)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                        handwriting: ['"Caveat"', 'cursive'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                        'glow-pulse': 'glowPulse 2s infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-12px) rotate(1.5deg)' },
+                        },
+                        glowPulse: {
+                            '0%': { boxShadow: '0 0 15px rgba(203, 213, 225, 0.2)' },
+                            '100%': { boxShadow: '0 0 30px rgba(203, 213, 225, 0.6)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <!-- External Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="font-sans antialiased selection:bg-grey-600 selection:text-white">
+
+    <!-- AUDIO: put the mp3 in the SAME folder as this file, with exactly this name -->
+    <audio id="bg-music" src="Frank_Ocean_-_White_Ferrari.mp3" loop preload="auto"></audio>
+
+    <!-- ENTRANCE CURTAIN -->
+    <div id="entrance-curtain" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-grey-950 p-6 text-center transition-opacity duration-1000">
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-slate-700/30 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        </div>
+
+        <div class="relative z-10 max-w-md space-y-6">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-grey-900 border-2 border-slate-400/50 text-slate-100 shadow-2xl mb-2 animate-float">
+                <i data-lucide="heart" class="w-10 h-10 text-slate-200 fill-slate-200"></i>
+            </div>
+            
+            <h1 class="font-serif text-3xl md:text-4xl text-slate-100 font-bold tracking-wide">
+                For Adedoyin 🩶
+            </h1>
+            
+            <p class="text-grey-300 text-sm md:text-base leading-relaxed">
+                A quiet, small website on the internet built just for you by Femi...
+            </p>
+
+            <button id="enter-btn" onclick="openCurtain()" class="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-slate-700 via-grey-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 text-slate-100 font-semibold text-base shadow-xl border border-slate-400/40 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-3 group">
+                <span>Tap to Open Your World 🎵</span>
+                <i data-lucide="sparkles" class="w-5 h-5 text-slate-200 group-hover:rotate-12 transition-transform"></i>
+            </button>
+            <p class="text-xs text-grey-400 font-light">🎶 Music starts when you open: <i>White Ferrari - Frank Ocean</i></p>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTENT -->
+    <div id="main-content" class="min-h-screen pb-24 md:pb-12 opacity-0 transition-opacity duration-1000">
+
+        <!-- FLOATING MUSIC PLAYER CONTROLLER -->
+        <div class="fixed top-4 right-4 z-40 flex items-center gap-2 glass-card py-2 px-3 rounded-full border border-slate-400/40 shadow-2xl">
+            <button onclick="toggleMusic()" id="music-toggle-btn" class="w-9 h-9 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-100 transition">
+                <i id="music-icon" data-lucide="disc" class="w-5 h-5 text-slate-200"></i>
+            </button>
+            <div class="flex flex-col pr-2">
+                <span class="text-xs font-semibold text-slate-200">White Ferrari</span>
+                <span id="music-status-text" class="text-[10px] text-slate-400">Frank Ocean 🎧</span>
+            </div>
+        </div>
+
+        <!-- HERO HEADER -->
+        <header class="relative pt-16 pb-12 md:pt-24 md:pb-20 px-4 text-center overflow-hidden">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-slate-700/30 via-slate-800/10 to-transparent blur-3xl pointer-events-none"></div>
+            
+            <div class="max-w-3xl mx-auto space-y-6 relative z-10">
+                <div class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-slate-900/80 border border-slate-500/40 text-slate-200 text-xs md:text-sm font-medium shadow-md">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-slate-300"></i>
+                    <span>Made With Love For Adedoyin</span>
+                </div>
+
+                <h1 class="font-serif text-4xl md:text-6xl font-bold tracking-tight silver-gradient-text leading-tight">
+                    For Adedoyin, My Favorite Person
+                </h1>
+
+                <p class="text-grey-300 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed">
+                    "My always in all ways."
+                </p>
+
+                <!-- INSTANT HUG ACTION CENTER -->
+                <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button onclick="sendHug()" class="w-full sm:w-auto py-4 px-8 rounded-2xl bg-gradient-to-r from-slate-700 via-grey-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 text-slate-100 font-semibold text-lg shadow-2xl border border-slate-400/50 transition transform active:scale-95 flex items-center justify-center gap-3 group">
+                        <i data-lucide="heart" class="w-6 h-6 text-slate-200 fill-slate-200 group-hover:scale-125 transition-transform"></i>
+                        <span>Send Hug to Femi 🫂</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTAINER -->
+        <main class="max-w-6xl mx-auto px-4 space-y-20">
+
+            <!-- MEDIA GALLERY (12 PHOTOS + 7 VIDEOS) -->
+            <section id="gallery" class="space-y-8">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-grey-800 pb-6">
+                    <div>
+                        <h2 class="font-serif text-2xl md:text-3xl font-semibold text-slate-100 flex items-center gap-2">
+                            <i data-lucide="film" class="w-6 h-6 text-slate-300"></i>
+                            <span>Our Mini Memories Gallery</span>
+                        </h2>
+                        <p class="text-xs md:text-sm text-grey-400 mt-1">US</p>
+                    </div>
+
+                    <!-- Filter Tabs -->
+                    <div class="flex items-center gap-2 bg-grey-900/90 p-1.5 rounded-xl border border-slate-700/60 text-xs md:text-sm">
+                        <button onclick="filterMedia('all')" id="tab-all" class="media-tab active py-1.5 px-4 rounded-lg bg-slate-700 text-slate-100 font-semibold transition">All (19)</button>
+                        <button onclick="filterMedia('photo')" id="tab-photo" class="media-tab py-1.5 px-4 rounded-lg text-grey-400 hover:text-slate-200 transition">Photos (12)</button>
+                        <button onclick="filterMedia('video')" id="tab-video" class="media-tab py-1.5 px-4 rounded-lg text-grey-400 hover:text-slate-200 transition">Videos (7)</button>
+                    </div>
+                </div>
+
+                <!-- Media Grid -->
+                <div id="media-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Javascript populates media cards dynamically -->
+                </div>
+            </section>
+
+            <!-- LOVE LETTERS & "OPEN WHEN" ENVELOPES -->
+            <section id="letters" class="space-y-8">
+                <div class="text-center space-y-2">
+                    <h2 class="font-serif text-2xl md:text-3xl font-semibold text-slate-100">Letters For Adedoyin 💌</h2>
+                    <p class="text-grey-400 text-xs md:text-sm">Written straight from Femi's heart for when you need a reminder</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Envelope 1 -->
+                    <div onclick="openLetter(0)" class="glass-card p-6 rounded-2xl cursor-pointer hover:border-slate-300/60 transition transform hover:-translate-y-1 group border border-slate-700/50">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="p-3 rounded-xl bg-slate-800 border border-slate-600 text-slate-200 shadow-md">
+                                <i data-lucide="mail-open" class="w-6 h-6"></i>
+                            </span>
+                            <span class="text-xs text-slate-300 font-medium bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700">Open Me</span>
+                        </div>
+                        <h3 class="font-serif text-lg text-slate-100 font-semibold mb-1">Open When You Miss Me</h3>
+                        <p class="text-xs text-grey-400">A reminder that I'm not going anywhere... ever.</p>
+                    </div>
+
+                    <!-- Envelope 2 -->
+                    <div onclick="openLetter(1)" class="glass-card p-6 rounded-2xl cursor-pointer hover:border-slate-300/60 transition transform hover:-translate-y-1 group border border-slate-700/50">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="p-3 rounded-xl bg-slate-800 border border-slate-600 text-slate-200 shadow-md">
+                                <i data-lucide="sparkles" class="w-6 h-6"></i>
+                            </span>
+                            <span class="text-xs text-slate-300 font-medium bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700">Open Me</span>
+                        </div>
+                        <h3 class="font-serif text-lg text-slate-100 font-semibold mb-1">Open When You Have a Long Day</h3>
+                        <p class="text-xs text-grey-400">Take a deep breath and let your personal bot comfort you...</p>
+                    </div>
+
+                    <!-- Envelope 3 -->
+                    <div onclick="openLetter(2)" class="glass-card p-6 rounded-2xl cursor-pointer hover:border-slate-300/60 transition transform hover:-translate-y-1 group border border-slate-700/50">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="p-3 rounded-xl bg-slate-800 border border-slate-600 text-slate-200 shadow-md">
+                                <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+                            </span>
+                            <span class="text-xs text-slate-300 font-medium bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700">Open Just Because</span>
+                        </div>
+                        <h3 class="font-serif text-lg text-slate-100 font-semibold mb-1">Open When We Have a Fight</h3>
+                        <p class="text-xs text-grey-400">Hi my loveee read this real quick 😭...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REASONS WHY I LOVE YOU GENERATOR -->
+            <section class="glass-card p-8 rounded-3xl text-center space-y-6 max-w-3xl mx-auto border border-slate-500/40 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-slate-700/20 rounded-full blur-2xl"></div>
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-800 text-slate-200 border border-slate-600 shadow-md">
+                    <i data-lucide="quote" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-serif text-2xl text-slate-100 font-semibold">Why Femi Loves Dami</h3>
+                
+                <p id="reason-text" class="text-lg md:text-xl font-handwriting text-slate-200 min-h-[70px] flex items-center justify-center px-4 leading-relaxed">
+                    "I love you 3000."
+                </p>
+
+                <button onclick="nextReason()" class="py-3 px-6 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 text-sm font-semibold border border-slate-500/50 shadow-lg transition transform active:scale-95">
+                    Show Me Another Reason 🩶
+                </button>
+            </section>
+
+            <!-- LIVE HUG JOURNAL & COUNTER -->
+            <section class="glass-card p-6 md:p-8 rounded-3xl space-y-6 max-w-3xl mx-auto border border-slate-600/40">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-grey-800 pb-4">
+                    <div>
+                        <h3 class="font-serif text-xl md:text-2xl font-semibold text-slate-100 flex items-center gap-2">
+                            <i data-lucide="book-heart" class="w-6 h-6 text-slate-300"></i>
+                            <span>Dami's Hug Journal</span>
+                        </h3>
+                        <p class="text-xs text-grey-400">Total Hugs Sent to Femi: <span id="total-hug-count" class="font-bold text-slate-200">0</span></p>
+                    </div>
+                    <button onclick="sendHug()" class="py-2.5 px-5 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-100 text-xs font-semibold border border-slate-500/40 shadow-md transition">
+                        + Send Hug 🫂
+                    </button>
+                </div>
+
+                <div id="hug-log-container" class="space-y-3 max-h-48 overflow-y-auto pr-2">
+                    <div id="no-hugs-yet" class="text-center py-6 text-grey-500 text-xs">
+                        No hugs sent yet today. Tap "Send Hug" above to send one to Femi! 🤗
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="mt-20 text-center py-8 border-t border-grey-800/80 text-xs text-grey-400 space-y-2">
+            <p>Designed with love for Adedoyin (Dami) 🩶</p>
+            <p class="text-[11px] text-slate-500">From your personal bot, Femi • Forever & Always</p>
+        </footer>
+    </div>
+
+    <!-- HUG WHATSAPP DIALOG MODAL -->
+    <div id="hug-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-card max-w-sm w-full p-6 rounded-3xl border border-slate-500/50 text-center space-y-5 transform scale-95 transition-transform duration-300 shadow-2xl">
+            <div class="w-16 h-16 rounded-full bg-slate-800 border border-slate-500 text-slate-200 flex items-center justify-center mx-auto animate-bounce shadow-lg">
+                <i data-lucide="heart" class="w-8 h-8 fill-slate-200 text-slate-200"></i>
+            </div>
+
+            <div class="space-y-2">
+                <h3 class="font-serif text-2xl text-slate-100 font-bold">Hug Recorded! 🤗</h3>
+                <p class="text-xs text-grey-300">
+                    A hug has been added to your journal! Tap below to send it straight to Femi's WhatsApp:
+                </p>
+            </div>
+
+            <div class="space-y-2 pt-2">
+                <a id="whatsapp-direct-link" href="#" target="_blank" class="w-full py-3.5 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-sm flex items-center justify-center gap-2 transition shadow-xl">
+                    <i data-lucide="message-square" class="w-4 h-4"></i>
+                    <span>Send via WhatsApp 💬</span>
+                </a>
+
+                <button onclick="closeHugModal()" class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition">
+                    Close Window
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LETTER READ MODAL -->
+    <div id="letter-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-card max-w-lg w-full p-8 rounded-3xl border border-slate-500/50 space-y-6 relative shadow-2xl">
+            <button onclick="closeLetterModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center transition border border-slate-700">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+
+            <div class="space-y-2 border-b border-grey-800 pb-4">
+                <span class="text-xs text-slate-400 font-medium">To My Sweet Adedoyin 🩶</span>
+                <h3 id="modal-letter-title" class="font-serif text-2xl text-slate-100 font-bold">Letter Title</h3>
+            </div>
+
+            <p id="modal-letter-body" class="font-handwriting text-xl text-slate-200 leading-relaxed min-h-[140px] max-h-[55vh] overflow-y-auto pr-2 whitespace-pre-line">
+                Letter text goes here...
+            </p>
+
+            <div class="pt-2 flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-handwriting text-lg">- From Femi</span>
+                <button onclick="closeLetterModal()" class="py-2.5 px-6 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-100 text-xs font-semibold transition shadow-md">
+                    Close Letter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

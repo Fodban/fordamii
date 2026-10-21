@@ -1,0 +1,51 @@
+body {
+    background-color: #030712;
+    color: #f1f5f9;
+    overflow-x: hidden;
+}
+
+/* Enhancing Glassmorphism with vibrant metallic glowing edges */
+.glass-card {
+    background: rgba(30, 41, 59, 0.65);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(203, 213, 225, 0.18);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.polaroid-frame {
+    background: #f8fafc;
+    color: #0f172a;
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), 0 0 20px rgba(203, 213, 225, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.polaroid-frame:hover {
+    transform: translateY(-8px) scale(1.02) rotate(0deg) !important;
+    box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(203, 213, 225, 0.4);
+    z-index: 20;
+}
+
+.silver-gradient-text {
+    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 40%, #cbd5e1 70%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 10px rgba(255, 255, 255, 0.15));
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #030712;
+}
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+    border: 1px solid rgba(203, 213, 225, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
